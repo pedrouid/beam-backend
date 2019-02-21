@@ -32,9 +32,15 @@ server.get('/:address', async (req, res) => {
   try {
     const { address } = req.params
 
-    const result = await ProfileModel.findOne({ address })
+    const { username, pinnedFiles } = await ProfileModel.findOne({ address })
 
-    res.status(200).send({ success: true, result })
+    res.status(200).send({
+      success: true,
+      result: {
+        username,
+        pinnedFiles
+      }
+    })
   } catch (error) {
     res.status(500).send({
       success: false,
