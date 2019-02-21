@@ -1,15 +1,29 @@
 {
   "name": "beam-backend",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
   "main": "index.js",
-  "scripts": {
-    "start": "micro"
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "micro": "^9.3.3"
+    "axios": "^0.18.0",
+    "fastify": "^1.14.1",
+    "fastify-cors": "^1.0.0",
+    "fastify-helmet": "^3.0.0",
+    "mongodb": "^3.1.13",
+    "mongoose": "^5.4.14"
+  },
+  "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }
