@@ -14,12 +14,7 @@ const server = fastify({ logger: LOGGER })
 const ProfileModel = mongoose.model(
   'Profile',
   new mongoose.Schema({
-    address: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true
-    },
+    address: String,
     username: String,
     pinnedFiles: Array
   })
@@ -42,6 +37,7 @@ server.get('/:address', async (req, res) => {
       }
     })
   } catch (error) {
+    console.error(error)
     res.status(500).send({
       success: false,
       message: 'Something went wrong'
@@ -52,20 +48,31 @@ server.get('/:address', async (req, res) => {
 server.post('/:address', async (req, res) => {
   try {
     const { address } = req.params
-    const { username, pinnedFiles } = req.body
+    console.log('req.body', req.body)
+    const { username, pinnedFiles } = req.body.profile
 
-    const profile = new ProfileModel({
+    const dataToSave = {
       address,
       username,
       pinnedFiles
-    })
+    }
 
-    await profile.save()
+    const result = await ProfileModel.findOneAndUpdate(
+      { address },
+      dataToSave,
+      { upsert: true }
+    )
+
+    if (!result) {
+      const profile = new ProfileModel(dataToSave)
+      await profile.save()
+    }
 
     res.status(200).send({
       success: true
     })
   } catch (error) {
+    console.error(error)
     res.status(500).send({
       success: false,
       message: 'Something went wrong'
